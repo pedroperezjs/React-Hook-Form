@@ -7,7 +7,8 @@ export const CustomForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -20,6 +21,7 @@ export const CustomForm = () => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
+    reset();
   };
 
   return (
@@ -52,7 +54,12 @@ export const CustomForm = () => {
         type="password"
         error={errors.confirmPassword}
       />
-      <button type="submit">Submit</button>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Enviando...' : 'Submit'}
+      </button>
     </form>
   );
 };
